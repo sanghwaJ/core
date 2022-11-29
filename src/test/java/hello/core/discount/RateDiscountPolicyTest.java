@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RateDiscountPolicyTest {
     RateDiscountPolicy discountPolicy = new RateDiscountPolicy();
 
+    // 성공 Test
     @Test
     @DisplayName("VIP는 10% 할인이 적용되어야 한다.")
     void vip_o() {
@@ -20,10 +21,10 @@ class RateDiscountPolicyTest {
         // when
         int discount = discountPolicy.discount(member, 10000);
         // then
-        // option + enter 단축키로 import static 변경 가능
-        assertThat(discount).isEqualTo(1000);
+        assertThat(discount).isEqualTo(1000); // option + enter 단축키로 import static 변경 가능
     }
 
+    // 실패 Test
     @Test
     @DisplayName("VIP가 아니면 10% 할인이 적용되지 않아야 한다.")
     void vip_x() {
