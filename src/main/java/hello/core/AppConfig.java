@@ -17,20 +17,25 @@ public class AppConfig {
 
     // 생성자를 통해서 어떤 구현체를 사용할지를 AppConfig에서 설정해 줌 (생성자 주입)
     // MemberServiceImpl => MemoryMemberRepository
+    // @Bean memberService => new MemoryMemberRepository 호출
     @Bean // Spring 컨테이너 등록
     public MemberService memberService() {
+        System.out.println("call AppConfig.memberService");
         return new MemberServiceImpl(memberRepository());
     }
 
     // 리팩토링 => MemberRepository 중복을 제거하고, 각 메소드가 어떤 역할을 하는지 알기 쉬워짐
     @Bean // Spring 컨테이너 등록
     public MemberRepository memberRepository() {
+        System.out.println("call AppConfig.memberRepository");
         return new MemoryMemberRepository();
     }
 
     // OrderServiceImpl => MemoryMemberRepository, FixDiscountPolicy
+    // @Bean orderService => new MemoryMemberRepository 호출
     @Bean // Spring 컨테이너 등록
     public OrderService orderService() {
+        System.out.println("call AppConfig.orderService");
         return new OrderServiceImpl(memberRepository(), discountPolicy());
     }
 
