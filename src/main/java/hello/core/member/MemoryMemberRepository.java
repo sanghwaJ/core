@@ -1,8 +1,11 @@
 package hello.core.member;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
+@Component // Spring Bean 등록
 public class MemoryMemberRepository implements MemberRepository {
 
     // 실무에선 동시성 이슈 때문에 ConcurrentHashMap을 사용함 (예제이기 때문에 HashMap 사용...)

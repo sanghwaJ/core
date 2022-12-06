@@ -1,5 +1,9 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component // Spring Bean 등록
 public class MemberServiceImpl implements MemberService {
 
     // 구현 객체 선택 (그렇지 않으면, nullPointException 발생)
@@ -9,6 +13,7 @@ public class MemberServiceImpl implements MemberService {
     // 이렇게 수정함으로써, MemberServiceImpl에서 MemoryMemberRepository에 대한 코드가 없어지기 때문에, 추상화에만 의존하게 됨 (DIP 만족)
     private final MemberRepository memberRepository;
 
+    @Autowired // 자동으로 의존관계 주입 (= ac.getBean(MemberRepository.class))
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
