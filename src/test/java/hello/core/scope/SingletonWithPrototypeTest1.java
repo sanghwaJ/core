@@ -2,6 +2,7 @@ package hello.core.scope;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -40,6 +41,7 @@ public class SingletonWithPrototypeTest1 {
 
     @Scope("singleton")
     static class ClientBean {
+        /*
         // 생성 시점에 주입되기 때문에 clientBean1과 clientBean2는 같은 prototypeBean!!! (의도하지 않은 결과)
         private final PrototypeBean prototypeBean;
 
@@ -47,8 +49,14 @@ public class SingletonWithPrototypeTest1 {
         public ClientBean(PrototypeBean prototypeBean) {
             this.prototypeBean = prototypeBean;
         }
+        */
+
+        // ObjectProvider : 지정한 빈을 컨테이너에서 대신 찾아주는 DL 서비스를 제공
+        @Autowired
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
 
         public int logic() {
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
