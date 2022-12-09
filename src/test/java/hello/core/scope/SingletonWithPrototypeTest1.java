@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
+
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -36,7 +38,7 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 
     @Scope("singleton")
@@ -52,11 +54,22 @@ public class SingletonWithPrototypeTest1 {
         */
 
         // ObjectProvider : 지정한 빈을 컨테이너에서 대신 찾아주는 DL 서비스를 제공
+        /*
         @Autowired
         private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+        */
+
+        // JSR-330 Provider
+        @Autowired
+        private Provider<PrototypeBean> prototypeBeanProvider;
 
         public int logic() {
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            // getObject를 호출할 때, 스프링 컨테이너에서 프로토타입 빈을 찾아 반환해 줌
+            // PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+
+            // JSR-330 Provider
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
+
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
